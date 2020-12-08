@@ -12,10 +12,18 @@ DIGIT_MAP = {
 }
 
 def convert(s):
-    number = ''
+    """Convert a string to an integer"""
+    x = -1
 
-    for token in s:
-        number += DIGIT_MAP[token]
+    try:
+        number = ''
 
-    x = int(number)
+        for token in s:
+            number += DIGIT_MAP[token]
+        x = int(number)
+        print(f"Conversion succeeded! x = {x}")
+
+    except (KeyError, TypeError):
+        print("Conversion failed!")
+        x = -1
     return x
