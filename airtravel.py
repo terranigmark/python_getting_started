@@ -101,7 +101,38 @@ class Flight:
                 passenger = self._seating[row][letter]
                 if passenger is not None:
                     yield (passenger, f"{row}{letter}")
+
 class Aircraft:
+
+    def __init__(self, registration):
+        self._registration = registration
+
+    def registration(self):
+        return self._registration
+
+    def num_seats(self):
+        rows, row_seats = self.seating_plan()
+        return len(rows) * len(row_seats)
+class AirbusA319(Aircraft):
+
+    def model(self):
+        return "Airbus A319"
+
+    def seating_plan(self):
+        return range(1, 23), "ABCDEF"
+
+class Boeing777(Aircraft):
+
+    def model(self):
+        return "Boeing 777"
+
+    def seating_plan(self):
+        return range(1, 56), "ABCDEGHJK"
+
+
+
+
+""" class Aircraft:
 
     def __init__(self, registration, model, num_rows, num_seats_per_row):
         self._registration = registration
@@ -116,7 +147,7 @@ class Aircraft:
         return self._model
 
     def seating_plan(self):
-        return (range(1, self._num_rows + 1), "ABCDEFGHJK"[:self._num_seats_per_row])
+        return (range(1, self._num_rows + 1), "ABCDEFGHJK"[:self._num_seats_per_row]) """
 
 def console_card_printer(passenger, seat, flight_number, aircraft):
     output =    f"| Name: {passenger}"      \
@@ -132,13 +163,20 @@ def console_card_printer(passenger, seat, flight_number, aircraft):
     print(card)
     print()
 
-def make_flight():
-    f = Flight("BA758", Aircraft("G-EUPT", "Airbus A319", num_rows=22, num_seats_per_row=6))
+def make_flights():
+    f = Flight("BA758", AirbusA319("G-EUPT"))
     f.allocate_seat("12A", "Guido van Rossum")
     f.allocate_seat("15F", "Bjarne Stroustrup")
     f.allocate_seat("15E", "Anders Hejlsberg")
     f.allocate_seat("1C", "John McCarthy")
     f.allocate_seat("1D", "Rich Hickey")
-    return f
+
+    g = Flight("AF72", Boeing777("F-GSPS"))
+    g.allocate_seat("55K", "Larry Wall")
+    g.allocate_seat("33G", "Yukihiro Matsumoto")
+    g.allocate_seat("4B", "Brian Kernighan")
+    g.allocate_seat("4A", "Dennis Ritchie")
+
+    return f, g
 
 # f = Flight("BA758", Aircraft("G-EUPT", "Airbus A319", num_rows=22, num_seats_per_row=6))
